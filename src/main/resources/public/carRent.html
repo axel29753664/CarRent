@@ -1,0 +1,101 @@
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 align="center">Employees cars rent</h3>
+    </div>
+    <div class="panel-body">
+
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <td ng-show="deleteRentTrigger"></td>
+                <td>Personal code</td>
+                <td>Name</td>
+                <td>Car number plate</td>
+                <td>Mark</td>
+                <td>Rent start</td>
+                <td>Rent end</td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="rent in rents | filter:rentFilter track by $index ">
+                <td ng-show="deleteRentTrigger">
+                    <input type="checkbox" ng-model="deletedRents[$index]" ng-true-value="{{rent.id}}"
+                           ng-false-value="">
+                </td>
+                <td>{{rent.employee.personalCode}}</td>
+                <td>{{rent.employee.name}}</td>
+                <td>{{rent.car.numberPlate}}</td>
+                <td>{{rent.car.mark}}</td>
+                <td>{{rent.rentStart| date: 'yyyy-MM-dd HH:mm'}}</td>
+                <td>{{rent.rentEnd | date: 'yyyy-MM-dd HH:mm'}}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="panel panel-default" ng-show="showRentCreationFrom">
+    <div class="panel-heading">
+        <h4 align="center">Add new rent</h4>
+    </div>
+    <div class="panel-body">  
+
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <td>Personal code</td>
+                <td>Name</td>
+                <td>Car number plate</td>
+                <td>Mark</td>
+                <td>Rent start</td>
+                <td>Rent end</td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>
+                    <select class="form-control" ng-model="newRent.employee">
+                        <option value="">---Please select---</option>
+                        <option ng-repeat="employee in employees" ng-value="employee">{{employee.personalCode}}</option>
+                    </select>
+                </td>
+                <td>
+                    <select class="form-control" ng-model="newRent.employee">
+                        <option value="">---Please select---</option>
+                        <option ng-repeat="employee in employees" ng-value="employee">{{employee.name}}</option>
+                    </select>
+                </td>
+                <td>
+                    <select class="form-control" ng-model="newRent.car">
+                        <option value="">---Please select---</option>
+                        <option ng-repeat="car in cars" ng-value="car">{{car.numberPlate}}</option>
+                    </select>
+                </td>
+                <td>
+                    <select class="form-control" ng-model="newRent.car">
+                        <option value="">---Please select---</option>
+                        <option ng-repeat="car in cars" ng-value="car">{{car.mark}}</option>
+                    </select>
+                </td>
+                <td><input type="datetime-local" ng-model="newRent.rentStart"/></td>
+                <td><input type="datetime-local" ng-model="newRent.rentEnd"/></td>
+            </tr>
+            </tbody>
+        </table>
+
+    </div>
+</div>
+
+<div class="panel-default">
+    <div class="alert alert-success" role="alert" ng-if="successMessage">{{successMessage}}</div>
+                    
+    <div class="alert alert-danger" role="alert" ng-if="errorMessage">{{errorMessage}}</div>
+</div>
+<div class="panel-default">
+    <button class="btn btn-default" ng-click="changeRentList()">Show current/all rents</button>
+    <button class="btn btn-{{addNewRentBtn}}" ng-click="addNewRent(newRent)">Add new rent</button>
+    <button class="btn btn-danger" ng-click="cancelNewRent()" ng-show="showRentCreationFrom">Cancel</button>
+
+    <button class="btn btn-{{deleteRentBtn}}" ng-click="deleteRents(deletedRents)">Delete rent</button>
+    <button class="btn btn-danger" ng-click="cancelDeleteRents()" ng-show="deleteRentTrigger">Cancel</button>
+</div>
+
